@@ -1134,9 +1134,9 @@ abstract contract DelegateERC20 is ERC20 {
         );
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "MdxToken::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "MdxToken::delegateBySig: invalid nonce");
-        require(now <= expiry, "MdxToken::delegateBySig: signature expired");
+        require(signatory != address(0), "PNNToken::delegateBySig: invalid signature");
+        require(nonce == nonces[signatory]++, "PNNToken::delegateBySig: invalid nonce");
+        require(now <= expiry, "PNNToken::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
 
@@ -1166,7 +1166,7 @@ abstract contract DelegateERC20 is ERC20 {
     view
     returns (uint256)
     {
-        require(blockNumber < block.number, "MdxToken::getPriorVotes: not yet determined");
+        require(blockNumber < block.number, "PNNToken::getPriorVotes: not yet determined");
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -1241,7 +1241,7 @@ abstract contract DelegateERC20 is ERC20 {
     )
     internal
     {
-        uint32 blockNumber = safe32(block.number, "MdxToken::_writeCheckpoint: block number exceeds 32 bits");
+        uint32 blockNumber = safe32(block.number, "PNNToken::_writeCheckpoint: block number exceeds 32 bits");
 
         if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;
@@ -1273,14 +1273,14 @@ abstract contract DelegateERC20 is ERC20 {
 
 }
 
-contract MdxToken is DelegateERC20, Ownable {
+contract PNNToken is DelegateERC20, Ownable {
     uint256 private constant preMineSupply = 2000000 * 1e18;
-    uint256 private constant maxSupply = 342992000 * 1e18;     // the total supply
+    uint256 private constant maxSupply = 300000000 * 1e18;     // the total supply
 
     using EnumerableSet for EnumerableSet.AddressSet;
     EnumerableSet.AddressSet private _minters;
 
-    constructor() public ERC20("MDX Token", "MDX"){
+    constructor() public ERC20("PNN Token", "PNN"){
         _mint(msg.sender, preMineSupply);
     }
 
@@ -1294,12 +1294,12 @@ contract MdxToken is DelegateERC20, Ownable {
     }
 
     function addMinter(address _addMinter) public onlyOwner returns (bool) {
-        require(_addMinter != address(0), "MdxToken: _addMinter is the zero address");
+        require(_addMinter != address(0), "PNNToken: _addMinter is the zero address");
         return EnumerableSet.add(_minters, _addMinter);
     }
 
     function delMinter(address _delMinter) public onlyOwner returns (bool) {
-        require(_delMinter != address(0), "MdxToken: _delMinter is the zero address");
+        require(_delMinter != address(0), "PNNToken: _delMinter is the zero address");
         return EnumerableSet.remove(_minters, _delMinter);
     }
 
@@ -1312,7 +1312,7 @@ contract MdxToken is DelegateERC20, Ownable {
     }
 
     function getMinter(uint256 _index) public view onlyOwner returns (address){
-        require(_index <= getMinterLength() - 1, "MdxToken: index out of bounds");
+        require(_index <= getMinterLength() - 1, "PNNToken: index out of bounds");
         return EnumerableSet.at(_minters, _index);
     }
 

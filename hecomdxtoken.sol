@@ -1,9 +1,9 @@
 /**
- *Submitted for verification at BscScan.com on 2021-04-08
+ *Submitted for verification at hecoinfo.com on 2021-02-02
 */
 
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.12;
+pragma solidity ^0.6.0;
 
 
 /*
@@ -781,7 +781,7 @@ library EnumerableSet {
 
         // Position of the value in the `values` array, plus 1 because index 0
         // means a value is not in the set.
-        mapping(bytes32 => uint256) _indexes;
+        mapping (bytes32 => uint256) _indexes;
     }
 
     /**
@@ -812,7 +812,7 @@ library EnumerableSet {
         // We read and store the value's index to prevent multiple reads from the same storage slot
         uint256 valueIndex = set._indexes[value];
 
-        if (valueIndex != 0) {// Equivalent to contains(set, value)
+        if (valueIndex != 0) { // Equivalent to contains(set, value)
             // To delete an element from the _values array in O(1), we swap the element to delete with the last one in
             // the array, and then remove the last element (sometimes called as 'swap and pop').
             // This modifies the order of the array, as noted in {at}.
@@ -828,8 +828,7 @@ library EnumerableSet {
             // Move the last value to the index where the value to delete is
             set._values[toDeleteIndex] = lastvalue;
             // Update the index for the moved value
-            set._indexes[lastvalue] = toDeleteIndex + 1;
-            // All indexes are 1-based
+            set._indexes[lastvalue] = toDeleteIndex + 1; // All indexes are 1-based
 
             // Delete the slot where the moved value was stored
             set._values.pop();
@@ -857,16 +856,16 @@ library EnumerableSet {
         return set._values.length;
     }
 
-    /**
-     * @dev Returns the value stored at position `index` in the set. O(1).
-     *
-     * Note that there are no guarantees on the ordering of values inside the
-     * array, and it may change when more values are added or removed.
-     *
-     * Requirements:
-     *
-     * - `index` must be strictly less than {length}.
-     */
+   /**
+    * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
     function _at(Set storage set, uint256 index) private view returns (bytes32) {
         require(set._values.length > index, "EnumerableSet: index out of bounds");
         return set._values[index];
@@ -912,16 +911,16 @@ library EnumerableSet {
         return _length(set._inner);
     }
 
-    /**
-     * @dev Returns the value stored at position `index` in the set. O(1).
-     *
-     * Note that there are no guarantees on the ordering of values inside the
-     * array, and it may change when more values are added or removed.
-     *
-     * Requirements:
-     *
-     * - `index` must be strictly less than {length}.
-     */
+   /**
+    * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
     function at(Bytes32Set storage set, uint256 index) internal view returns (bytes32) {
         return _at(set._inner, index);
     }
@@ -966,16 +965,16 @@ library EnumerableSet {
         return _length(set._inner);
     }
 
-    /**
-     * @dev Returns the value stored at position `index` in the set. O(1).
-     *
-     * Note that there are no guarantees on the ordering of values inside the
-     * array, and it may change when more values are added or removed.
-     *
-     * Requirements:
-     *
-     * - `index` must be strictly less than {length}.
-     */
+   /**
+    * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
     function at(AddressSet storage set, uint256 index) internal view returns (address) {
         return address(uint256(_at(set._inner, index)));
     }
@@ -1021,27 +1020,27 @@ library EnumerableSet {
         return _length(set._inner);
     }
 
-    /**
-     * @dev Returns the value stored at position `index` in the set. O(1).
-     *
-     * Note that there are no guarantees on the ordering of values inside the
-     * array, and it may change when more values are added or removed.
-     *
-     * Requirements:
-     *
-     * - `index` must be strictly less than {length}.
-     */
+   /**
+    * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
     function at(UintSet storage set, uint256 index) internal view returns (uint256) {
         return uint256(_at(set._inner, index));
     }
 }
 
-pragma solidity ^0.6.12;
+pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
 abstract contract DelegateERC20 is ERC20 {
     // @notice A record of each accounts delegate
-    mapping(address => address) internal _delegates;
+    mapping (address => address) internal _delegates;
 
     /// @notice A checkpoint for marking number of votes from a given block
     struct Checkpoint {
@@ -1050,10 +1049,10 @@ abstract contract DelegateERC20 is ERC20 {
     }
 
     /// @notice A record of votes checkpoints for each account, by index
-    mapping(address => mapping(uint32 => Checkpoint)) public checkpoints;
+    mapping (address => mapping (uint32 => Checkpoint)) public checkpoints;
 
     /// @notice The number of checkpoints for each account
-    mapping(address => uint32) public numCheckpoints;
+    mapping (address => uint32) public numCheckpoints;
 
     /// @notice The EIP-712 typehash for the contract's domain
     bytes32 public constant DOMAIN_TYPEHASH = keccak256("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
@@ -1062,7 +1061,7 @@ abstract contract DelegateERC20 is ERC20 {
     bytes32 public constant DELEGATION_TYPEHASH = keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
 
     /// @notice A record of states for signing / validating signatures
-    mapping(address => uint) public nonces;
+    mapping (address => uint) public nonces;
 
 
     // support delegates mint
@@ -1078,8 +1077,8 @@ abstract contract DelegateERC20 is ERC20 {
         super._transfer(sender, recipient, amount);
         _moveDelegates(_delegates[sender], _delegates[recipient], amount);
     }
-
-
+    
+    
     /**
     * @notice Delegate votes from `msg.sender` to `delegatee`
     * @param delegatee The address to delegate votes to
@@ -1186,8 +1185,7 @@ abstract contract DelegateERC20 is ERC20 {
         uint32 lower = 0;
         uint32 upper = nCheckpoints - 1;
         while (upper > lower) {
-            uint32 center = upper - (upper - lower) / 2;
-            // ceil, avoiding overflow
+            uint32 center = upper - (upper - lower) / 2; // ceil, avoiding overflow
             Checkpoint memory cp = checkpoints[account][center];
             if (cp.fromBlock == blockNumber) {
                 return cp.votes;
@@ -1204,8 +1202,7 @@ abstract contract DelegateERC20 is ERC20 {
     internal
     {
         address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator);
-        // balance of underlying balances (not scaled);
+        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying balances (not scaled);
         _delegates[delegator] = delegatee;
 
         _moveDelegates(currentDelegate, delegatee, delegatorBalance);
@@ -1254,17 +1251,17 @@ abstract contract DelegateERC20 is ERC20 {
     }
 
     function safe32(uint n, string memory errorMessage) internal pure returns (uint32) {
-        require(n < 2 ** 32, errorMessage);
+        require(n < 2**32, errorMessage);
         return uint32(n);
     }
 
     function getChainId() internal pure returns (uint) {
         uint256 chainId;
-        assembly {chainId := chainid()}
+        assembly { chainId := chainid() }
 
         return chainId;
     }
-
+    
     /// @notice An event thats emitted when an account changes its delegate
     event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
 
@@ -1274,8 +1271,8 @@ abstract contract DelegateERC20 is ERC20 {
 }
 
 contract MdxToken is DelegateERC20, Ownable {
-    uint256 private constant preMineSupply = 2000000 * 1e18;
-    uint256 private constant maxSupply = 342992000 * 1e18;     // the total supply
+    uint256 private constant preMineSupply = 200000000 * 1e18; 
+    uint256 private constant maxSupply = 1000000000 * 1e18;     // the total supply
 
     using EnumerableSet for EnumerableSet.AddressSet;
     EnumerableSet.AddressSet private _minters;
